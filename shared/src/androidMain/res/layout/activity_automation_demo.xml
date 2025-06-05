@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="KAce UI自动化示例"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/status_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="检查无障碍服务状态..."
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/enable_service_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="启用无障碍服务"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="自动化操作示例："
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/find_by_text_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="查找并点击"设置"按钮"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/click_point_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="点击屏幕中心"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/swipe_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="执行上滑操作"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="注意：使用这些功能需要先启用无障碍服务"
+        android:textSize="14sp"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout> 

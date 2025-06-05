@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">KAce</string>
+    <string name="accessibility_service_description">KAce自动化服务，用于执行UI自动化操作。启用此服务后，KAce将能够检测屏幕上的元素并执行点击、滑动等操作。</string>
+</resources> 
