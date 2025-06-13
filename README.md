@@ -1,71 +1,6 @@
 # KAce - 跨平台自动化应用框架
 
-> 基于 Kotlin Multiplatform 的跨平台自动化应用框架，支持 Android、iOS、Windows、macOS 等多个平台的 UI 自动化操作。
-
-## 🚀 项目简介
-
-KAce 是一个强大的跨平台自动化应用框架，旨在提供统一的 API 来实现不同平台的 UI 自动化操作。项目采用 Kotlin Multiplatform (KMP) 技术，支持原生 API 和 Frida 两种自动化方案，同时集成图像识别和 OCR 功能。
-
-### ✨ 核心特性
-
-- 🔄 **跨平台支持**: Android、iOS、Windows、macOS 统一 API
-- 🎯 **多种自动化方案**: 原生 API + Frida Hook 双重支持
-- 🖼️ **图像识别**: 支持模板匹配、颜色检测、OCR 文字识别
-- 🔒 **最小权限原则**: 每个平台使用最低权限要求的方案
-- 📝 **脚本化**: 支持 JavaScript 脚本和原生 Kotlin 脚本
-- 🌐 **远程控制**: 支持 REST API 和 WebSocket 远程操作
-- 📱 **现代 UI**: 基于 Compose Multiplatform 的现代化界面
-
-## 🏗️ 系统架构
-
-### 整体架构图
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    应用层 (Application Layer)                │
-├─────────────────┬─────────────────┬─────────────────────────┤
-│   用户界面        │    REST API     │      命令行接口          │
-│ Compose MP      │   Ktor Server   │      CLI Tool          │
-└─────────────────┴─────────────────┴─────────────────────────┘
-┌─────────────────────────────────────────────────────────────┐
-│                 业务逻辑层 (Business Logic Layer)            │
-├─────────────────┬─────────────────┬─────────────────────────┤
-│   脚本管理器      │    执行引擎       │      结果管理器          │
-│ Script Manager  │ Execution Engine│   Result Manager       │
-└─────────────────┴─────────────────┴─────────────────────────┘
-┌─────────────────────────────────────────────────────────────┐
-│              自动化抽象层 (Automation Abstraction Layer)      │
-├─────────────────┬─────────────────┬─────────────────────────┤
-│   原生自动化      │   Frida自动化    │      图像识别            │
-│ Native Auto     │  Frida Auto     │  Image Recognition     │
-└─────────────────┴─────────────────┴─────────────────────────┘
-┌─────────────────────────────────────────────────────────────┐
-│               平台适配层 (Platform Adaptation Layer)         │
-├──────────┬──────────┬──────────┬──────────────────────────┤
-│ Android  │   iOS    │ Windows  │         macOS            │
-├──────────┼──────────┼──────────┼──────────────────────────┤
-│Accessibility│XCTest │UI Auto   │    Accessibility API     │
-│ADB+Shizuku │Frida   │Frida     │        Frida             │
-└──────────┴──────────┴──────────┴──────────────────────────┘
-```
-
-### 核心组件
-
-#### 1. 统一自动化控制器 (Unified Automation Controller)
-- 提供跨平台统一的自动化 API
-- 支持元素定位、点击、滑动、输入等操作
-- 自动选择最适合的底层实现方案
-
-#### 2. Frida 集成模块
-- 支持动态代码注入和 Hook
-- JavaScript 脚本执行引擎
-- 进程附加和会话管理
-
-#### 3. 图像识别引擎
-- 模板匹配算法
-- 颜色检测和像素分析
-- OCR 文字识别
-- 截图和图像处理
+> 基于 Kotlin Multiplatform 的跨平台CMS管理系统，支持 Android、iOS、Windows、macOS 等多个平台。
 
 ## 🛠️ 技术栈
 
@@ -77,458 +12,215 @@ KAce 是一个强大的跨平台自动化应用框架，旨在提供统一的 AP
 - **Kotlinx.coroutines**: 异步编程
 - **Kotlinx.serialization**: 数据序列化
 
-### 平台特定技术
+## 📋 产品功能
 
-| 平台 | 原生自动化 | Frida支持 | 权限要求 |
-|------|-----------|-----------|----------|
-| Android | AccessibilityService + ADB/Shizuku | ✅ | 辅助功能权限 |
-| iOS | XCTest Framework | ✅ | 开发者证书 |
-| Windows | UI Automation API | ✅ | 用户级权限 |
-| macOS | Accessibility API | ✅ | 辅助功能权限 |
+### 核心功能
+- **内容管理**：CMS的核心功能，包括内容创建、编辑、发布等
+- **用户权限管理**：基于RBAC模型，支持动态角色配置
+- **数据分析和报表**：内容访问和用户行为分析
+- **多语言支持**：内容和界面的多语言管理
+- **主题和模板管理**：自定义系统外观和布局
+- **API接口**：供第三方系统集成
 
-### 第三方库
-- **OpenCV**: 图像处理和计算机视觉
-- **Frida**: 动态分析和代码注入
-- **Tesseract**: OCR 文字识别引擎
-- **JNA**: Java 原生接口访问
+### 扩展功能
+- **插件系统**：通过插件扩展系统功能
+- **自定义表单**：无代码创建数据收集表单
+- **SEO优化工具**：提升内容搜索引擎可见性
+- **内容版本控制**：跟踪内容变更历史
+- **多站点管理**：在一个系统中管理多个网站
+- **定时任务和自动化**：内容定时发布等自动化任务
+- **第三方集成**：支付、社交媒体等集成
 
-## 📁 项目结构
+## 🎨 设计风格
 
+- **设计系统**: Material Design 3 (Material You)
+- **主题**: 亮/暗模式，可自定义主色调
+- **布局**: 响应式设计，适配不同设备尺寸
+- **交互**: 手势友好，动画流畅
+- **可访问性**: 符合WCAG 2.1标准
+- **国际化**: 支持RTL布局和多语言
+
+## 🏗️ 系统架构
+
+### 服务端架构
+
+#### 技术选型
+- **后端语言**: Kotlin
+- **框架**: Ktor
+- **数据库**: PostgreSQL (主数据库), Redis (缓存)
+- **消息队列**: RabbitMQ
+- **搜索引擎**: Elasticsearch
+- **文件存储**: MinIO (兼容S3)
+- **身份认证**: OAuth 2.0 + JWT
+- **部署**: Docker + Kubernetes
+
+#### 架构模式
+- 微服务架构
+- 领域驱动设计 (DDD)
+- CQRS模式（命令查询责任分离）
+- 事件驱动
+
+#### 主要微服务
+- 认证服务
+- 内容服务
+- 用户管理服务
+- 媒体服务
+- 分析服务
+- 通知服务
+- API网关
+
+### 客户端架构
+
+#### 共享代码架构
+- **网络层**: Ktor客户端
+- **数据层**: SQLDelight + Repository模式
+- **业务逻辑**: ViewModel + 状态管理
+- **依赖注入**: Koin
+- **共享UI组件**: Compose Multiplatform
+
+#### 多平台支持
+- **Web端**: Compose Multiplatform for Web (Compose HTML)
+- **移动端**: Android & iOS 通过 Compose Multiplatform
+- **桌面端**: Windows & macOS 通过 Compose Multiplatform for Desktop
+
+### 插件架构
+
+#### 核心架构
+- 基于接口的插件系统
+- 动态加载和注册机制
+- 插件生命周期管理
+
+#### 基础核心模块
 ```
-KAce/
-├── shared/                     # 共享模块 (KMP)
-│   ├── src/
-│   │   ├── commonMain/kotlin/  # 通用代码
-│   │   │   ├── core/          # 核心模块
-│   │   │   ├── automation/    # 自动化核心
-│   │   │   ├── image/         # 图像处理
-│   │   │   ├── frida/         # Frida 相关
-│   │   │   ├── script/        # 脚本管理
-│   │   │   ├── network/       # 网络通信
-│   │   │   ├── storage/       # 数据存储
-│   │   │   └── utils/         # 工具类
-│   │   ├── androidMain/       # Android 特定实现
-│   │   ├── iosMain/           # iOS 特定实现
-│   │   ├── desktopMain/       # 桌面平台实现
-│   │   ├── wasmJsMain/        # Web 平台实现
-│   │   └── commonTest/        # 通用测试
-│   └── build.gradle.kts
-├── app-android/               # Android 应用
-│   ├── src/androidMain/
-│   │   ├── kotlin/
-│   │   │   ├── services/      # 系统服务
-│   │   │   ├── ui/            # 用户界面
-│   │   │   └── utils/         # 工具类
-│   │   └── AndroidManifest.xml
-│   └── build.gradle.kts
-├── app-ios/                   # iOS 应用
-│   ├── iosApp/
-│   │   ├── ContentView.swift
-│   │   ├── Services/          # 系统服务
-│   │   ├── UI/                # 用户界面
-│   │   └── Utils/             # 工具类
-│   └── build.gradle.kts
-├── app-desktop/               # 桌面应用
-│   ├── src/jvmMain/kotlin/
-│   │   ├── ui/                # 用户界面
-│   │   ├── services/          # 系统服务
-│   │   └── utils/             # 工具类
-│   └── build.gradle.kts
-├── app-web/                   # Web 应用
-│   ├── src/wasmJsMain/
-│   │   ├── kotlin/
-│   │   │   └── main.kt        # 入口点
-│   │   └── resources/         # 静态资源
-│   └── build.gradle.kts
-├── server/                    # 服务端
-│   ├── src/main/kotlin/
-│   │   ├── routes/            # API 路由
-│   │   ├── plugins/           # 插件配置
-│   │   └── services/          # 业务服务
-│   └── build.gradle.kts
-├── docs/                      # 文档
-├── scripts/                   # 构建脚本
-├── examples/                  # 示例项目
-└── README.md
-```
-
-## 🚀 快速开始
-
-### 环境要求
-
-- **JDK**: 17 或更高版本
-- **Android Studio**: 最新版本 (用于 Android 开发)
-- **Xcode**: 最新版本 (用于 iOS 开发，仅 macOS)
-- **Gradle**: 8.0 或更高版本
-
-### 安装步骤
-
-1. **克隆项目**
-   ```bash
-   git clone https://github.com/your-username/KAce.git
-   cd KAce
-   ```
-
-2. **安装依赖**
-   ```bash
-   ./gradlew build
-   ```
-
-3. **运行桌面应用**
-   ```bash
-   ./gradlew :app-desktop:run
-   ```
-
-4. **构建 Android 应用**
-   ```bash
-   ./gradlew :app-android:assembleDebug
-   ```
-
-5. **运行 Web 应用**
-   ```bash
-   ./gradlew :app-web:wasmJsBrowserDevelopmentRun
-   ```
-
-6. **构建 iOS 应用** (仅 macOS)
-   ```bash
-   ./gradlew :app-ios:podInstall
-   ./gradlew :app-ios:iosDeployIPhone
-   ```
-
-### Frida 环境配置
-
-#### Android
-```bash
-# 下载并推送 frida-server
-adb push frida-server-16.1.4-android-arm64 /data/local/tmp/frida-server
-adb shell chmod 755 /data/local/tmp/frida-server
-adb shell /data/local/tmp/frida-server &
+core/
+  ├── auth/        (用户、角色、权限)
+  ├── logging/     (日志系统)
+  ├── database/    (数据访问)
+  ├── ui-core/     (UI基础组件)
+  └── plugin-api/  (插件接口定义)
 ```
 
-#### iOS (需要越狱设备)
-```bash
-# 通过 Cydia 安装 Frida
-# 或通过 SSH 安装
-ssh root@<device-ip>
-apt update && apt install frida
+#### 插件模块示例
+```
+plugins/
+  ├── article-plugin/  (文章管理插件)
+  ├── product-plugin/  (产品管理插件)
+  ├── gallery-plugin/  (图库管理插件)
+  └── event-plugin/    (活动管理插件)
 ```
 
-#### Desktop
-```bash
-# 安装 frida-tools
-pip install frida-tools
-```
+## 📊 模块详细设计
 
-## 📖 使用示例
+### 内容管理模块
 
-### 基础自动化操作
+#### 内容类型管理
+- 内容类型定义：自定义内容类型（文章、产品、活动等）
+- 字段管理：动态添加、编辑、删除内容字段
+- 字段类型：支持文本、富文本、数字、日期、图片、文件、关联等多种字段类型
+- 内容模板：为不同内容类型创建布局模板
 
-```kotlin
-import com.github.kirer.kace.automation.UiAuto
-import com.github.kirer.kace.automation.model.ElementInfo
-import com.github.kirer.kace.automation.model.Point
-import com.github.kirer.kace.automation.model.Rect
+#### 内容创建与编辑
+- 富文本编辑器：支持Markdown和WYSIWYG模式
+- 媒体库集成：直接插入图片、视频和文件
+- 版本控制：内容修改历史和版本比较
+- 草稿与发布：支持内容草稿和定时发布
+- 批量操作：批量编辑、发布、删除内容
 
-// 初始化自动化控制器
-val auto = UiAuto()
+#### 内容组织
+- 分类管理：多层级分类系统
+- 标签系统：灵活的内容标记
+- 内容关联：建立内容间的关联关系
+- 内容排序：自定义排序规则
 
-// 获取元素信息
-val element = auto.text("登录")
-if (element != null) {
-    // 点击登录按钮
-    auto.click(element)
-}
+#### 内容展示
+- 页面构建器：拖拽式页面设计
+- 组件库：预设内容展示组件
+- 响应式预览：不同设备尺寸的内容预览
+- 自定义URL：设置内容访问路径
 
-// 或者直接通过坐标点击
-auto.click(Point(100, 200))
+#### 内容搜索与过滤
+- 全文搜索：基于Elasticsearch的高效搜索
+- 高级筛选：多条件组合筛选
+- 相关内容推荐：基于标签和分类的内容关联
 
-// 输入文本
-auto.input("username@example.com")
+#### 多语言内容
+- 翻译管理：内容多语言版本管理
+- 语言切换：无缝切换不同语言版本
+- 翻译状态：跟踪翻译完成度
 
-// 滑动操作
-auto.swipe(Point(100, 500), Point(100, 200))
+#### 媒体资源管理
+- 媒体库：集中管理图片、视频、文档
+- 图片处理：自动生成不同尺寸的图片
+- 媒体元数据：管理媒体文件的附加信息
+- 文件夹组织：结构化存储媒体资源
 
-// 截图
-val screenshot = auto.screenshot()
-```
+### 用户权限管理模块
 
-### Frida 脚本执行
+#### 角色管理
+- 动态角色创建：管理员可以创建、编辑、删除角色
+- 角色层级：支持角色继承关系，子角色自动获取父角色权限
+- 角色模板：预设常用角色模板，快速创建
 
-```kotlin
-import com.github.kirer.kace.frida.FridaController
-import com.github.kirer.kace.frida.model.FridaScriptResult
+#### 权限设置
+- 页面权限：可按模块、页面精细控制访问权限
+- API权限：控制对API端点的访问，支持HTTP方法级别权限
+- 资源权限：对文件、数据库记录等资源的访问控制
+- 操作权限：读取、创建、编辑、删除等操作的细粒度控制
+- 数据权限：控制用户可查看的数据范围(全部/部门/个人)
 
-// 初始化 Frida 控制器
-val fridaController = FridaController()
+#### 用户与角色关联
+- 多角色分配：用户可关联一个或多个角色
+- 角色权重：当用户拥有多个角色时的权限合并策略
+- 临时角色：支持时效性角色分配
 
-// 附加到目标进程
-val session = fridaController.attachToProcess("com.example.app")
+#### 权限审计
+- 权限变更日志：记录所有权限变更操作
+- 权限使用记录：跟踪权限使用情况
+- 异常行为检测：识别可疑的权限使用模式
 
-// 执行 JavaScript 脚本
-val script = """
-    Java.perform(function() {
-        var MainActivity = Java.use("com.example.MainActivity");
-        MainActivity.onCreate.implementation = function(savedInstanceState) {
-            console.log("MainActivity.onCreate called!");
-            return this.onCreate(savedInstanceState);
-        };
-    });
-"""
-
-val result = fridaController.executeScript(script)
-if (result.success) {
-    println("脚本执行成功: ${result.data}")
-} else {
-    println("脚本执行失败: ${result.error}")
-}
-```
-
-### 图像识别
-
-```kotlin
-import com.github.kirer.kace.image.ImageMatcher
-import com.github.kirer.kace.image.model.ImageMatchResult
-import com.github.kirer.kace.image.model.Color
-import com.github.kirer.kace.automation.model.Rect
-
-// 初始化图像匹配器
-val imageMatcher = ImageMatcher()
-
-// 模板匹配
-val templateImage = imageMatcher.loadImageFromAssets("login_button.png")
-val matches = imageMatcher.findImageInScreen(templateImage)
-
-if (matches.isNotEmpty()) {
-    val firstMatch = matches.first()
-    controller.click(firstMatch.center)
-}
-
-// 颜色检测
-val color = imageMatcher.getPixelColor(Point(100, 200))
-if (color == Color.RED) {
-    println("检测到红色像素")
-}
-
-// OCR 文字识别
-val text = imageMatcher.performOCR(Rect(0, 0, 500, 100))
-println("识别到的文字: $text")
-```
-
-## 🧩 API 接口
-
-### 自动化控制器 (UiAuto)
-
-```kotlin
-interface AutoController {
-    // 基础操作
-    fun click(point: Point): Boolean
-    fun click(element: ElementInfo): Boolean
-    fun longClick(point: Point, durationMs: Long = 500): Boolean
-    fun longClick(element: ElementInfo, durationMs: Long = 500): Boolean
-    fun swipe(from: Point, to: Point, durationMs: Long = 300): Boolean
-    fun input(text: String): Boolean
-    fun pressKey(keyCode: Int): Boolean
-    
-    // 元素查找
-    fun id(id: String): ElementInfo?
-    fun text(text: String, isExactMatch: Boolean = false): ElementInfo?
-    fun className(className: String): ElementInfo?
-    fun findAll(selector: ElementSelector): List<ElementInfo>
-    
-    // 屏幕操作
-    fun screenshot(): ByteArray
-    fun getScreenSize(): Rect
-    fun waitFor(selector: ElementSelector, timeoutMs: Long = 10000): ElementInfo?
-    
-    // 窗口/应用操作
-    fun launchApp(packageName: String): Boolean
-    fun closeApp(packageName: String): Boolean
-    fun getCurrentActivity(): String?
-    fun getCurrentPackage(): String?
-    
-    // 状态检查
-    fun isScreenOn(): Boolean
-    fun isDeviceLocked(): Boolean
-    fun unlockDevice(pin: String? = null): Boolean
-}
-```
-
-### Frida 控制器 (FridaController)
-
-```kotlin
-interface FridaController {
-    // 会话管理
-    fun attachToProcess(processNameOrId: String): FridaSession?
-    fun detachFromProcess()
-    fun listProcesses(): List<ProcessInfo>
-    
-    // 脚本执行
-    fun executeScript(scriptContent: String): FridaScriptResult
-    fun loadScriptFromFile(filePath: String): FridaScriptResult
-    
-    // 消息处理
-    fun registerMessageHandler(handler: (FridaMessage) -> Unit)
-    fun postMessage(message: Any)
-    
-    // 内存操作
-    fun readMemory(address: Long, size: Int): ByteArray
-    fun writeMemory(address: Long, data: ByteArray): Boolean
-    fun scanMemory(pattern: String): List<Long>
-    
-    // 模块管理
-    fun listModules(): List<ModuleInfo>
-    fun getModuleExports(moduleName: String): List<ExportInfo>
-    fun getModuleImports(moduleName: String): List<ImportInfo>
-}
-```
-
-### 图像处理 (ImageProcessor)
-
-```kotlin
-interface ImageProcessor {
-    // 图像加载
-    fun loadImageFromFile(path: String): Image
-    fun loadImageFromAssets(assetName: String): Image
-    fun loadImageFromBytes(bytes: ByteArray): Image
-    
-    // 图像匹配
-    fun findImageInScreen(template: Image, threshold: Double = 0.8): List<ImageMatchResult>
-    fun findImageInRegion(template: Image, region: Rect, threshold: Double = 0.8): List<ImageMatchResult>
-    
-    // 颜色操作
-    fun getPixelColor(point: Point): Color
-    fun findColorInRegion(color: Color, region: Rect, tolerance: Int = 5): List<Point>
-    
-    // OCR
-    fun performOCR(region: Rect): String
-    fun findTextInScreen(text: String): List<Rect>
-    
-    // 图像处理
-    fun cropImage(image: Image, rect: Rect): Image
-    fun resizeImage(image: Image, width: Int, height: Int): Image
-    fun rotateImage(image: Image, degrees: Float): Image
-    fun applyFilter(image: Image, filterType: FilterType): Image
-}
-```
-
-### 脚本引擎 (ScriptEngine)
-
-```kotlin
-interface ScriptEngine {
-    // 脚本执行
-    fun executeScript(scriptContent: String): ScriptResult
-    fun executeScriptFile(filePath: String): ScriptResult
-    
-    // 环境配置
-    fun setScriptVariable(name: String, value: Any?)
-    fun registerFunction(name: String, function: (Array<Any?>) -> Any?)
-    
-    // 上下文管理
-    fun createContext(): ScriptContext
-    fun destroyContext(context: ScriptContext)
-    
-    // 事件处理
-    fun registerEventHandler(eventName: String, handler: (ScriptEvent) -> Unit)
-    fun triggerEvent(eventName: String, data: Any? = null)
-}
-```
-
-## 🔧 配置说明
-
-### Android 配置
-
-1. **权限配置** (`AndroidManifest.xml`)
-   ```xml
-   <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-   <uses-permission android:name="android.permission.ACCESSIBILITY_SERVICE" />
-   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-   ```
-
-2. **无障碍服务配置** (`accessibility_service_config.xml`)
-   ```xml
-   <accessibility-service
-       android:accessibilityEventTypes="typeAllMask"
-       android:accessibilityFlags="flagDefault"
-       android:accessibilityFeedbackType="feedbackGeneric"
-       android:canRetrieveWindowContent="true" />
-   ```
-
-### iOS 配置
-
-1. **权限配置** (`Info.plist`)
-   ```xml
-   <key>NSAppleEventsUsageDescription</key>
-   <string>需要访问系统事件以实现自动化功能</string>
-   ```
-
-2. **开发者证书配置**
-  - 需要有效的开发者证书
-  - 启用相关的 Capabilities
-
-## 🤝 贡献指南
-
-我们欢迎所有形式的贡献！请查看 [CONTRIBUTING.md](CONTRIBUTING.md) 了解详细信息。
+## 🚀 开发和部署
 
 ### 开发流程
+- 代码版本控制：Git
+- 持续集成/部署：GitHub Actions
+- 代码质量检查：ktlint, Detekt
+- 单元测试：JUnit, Kotest
+- 集成测试：Testcontainers
 
-1. Fork 项目
-2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 创建 Pull Request
+### 部署流程
+- 容器化：Docker
+- 编排：Kubernetes
+- 监控：Prometheus + Grafana
+- 日志：ELK Stack
+- API文档：OpenAPI/Swagger
 
-### 代码规范
+## 🗓️ 实施路线图
 
-- 遵循 Kotlin 官方编码规范
-- 使用有意义的变量和函数名
-- 添加必要的注释和文档
-- 编写单元测试
+### 第一阶段：基础架构
+1. 搭建基础KMP项目结构
+2. 实现插件系统架构
+3. 建立核心模块（认证、日志等）
+4. 设计和实现数据库模型
 
-## 📄 许可证
+### 第二阶段：核心功能
+1. 用户权限管理模块
+2. 基础内容管理模块
+3. 媒体资源管理
+4. API接口层
 
-本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
+### 第三阶段：前端实现
+1. 公共UI组件库
+2. 管理后台界面
+3. 多平台适配
 
-## 🙏 致谢
+### 第四阶段：扩展功能
+1. 实现内容插件
+2. 多语言支持
+3. 数据分析和报表
+4. 第三方集成
 
-- [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html) - 跨平台开发框架
-- [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) - 现代化 UI 框架
-- [Frida](https://frida.re/) - 动态分析工具
-- [OpenCV](https://opencv.org/) - 计算机视觉库
-
-## 📞 联系我们
-
-- 项目主页: [https://github.com/your-username/KAce](https://github.com/your-username/KAce)
-- 问题反馈: [Issues](https://github.com/your-username/KAce/issues)
-- 讨论交流: [Discussions](https://github.com/your-username/KAce/discussions)
-
-## 🔄 API变更说明
-
-为了使API更加简洁易用，我们对方法名称和类名进行了以下优化：
-
-### 方法名优化
-
-| 旧方法名 | 新方法名 | 说明 |
-|---------|---------|------|
-| `findElementById()` | `id()` | 根据ID查找元素 |
-| `findElementByText()` | `text()` | 根据文本查找元素 |
-| `findElementByClassName()` | `className()` | 根据类名查找元素 |
-| `findElement()` | `find()` | 根据选择器查找单个元素 |
-| `findElements()` | `findAll()` | 根据选择器查找多个元素 |
-| `inputText()` | `input()` | 输入文本 |
-| `captureScreen()` | `screenshot()` | 截取屏幕 |
-| `performGesture()` | `gesture()` | 执行手势操作 |
-| `waitForElement()` | `waitFor()` | 等待元素出现 |
-| `waitForElementGone()` | `waitForGone()` | 等待元素消失 |
-
-### 类名优化
-
-| 旧类名 | 新类名 | 说明 |
-|-------|-------|------|
-| `AutomationController` | `AutoController` | 自动化控制器接口 |
-| `UnifiedAutomationController` | `UiAuto` | 统一自动化控制器实现类 |
-
-这些变更使API更加简洁直观，同时保持了功能的完整性。
-
----
-
-**KAce** - 让跨平台自动化变得简单而强大！ 🚀
+### 第五阶段：优化和上线
+1. 性能优化
+2. 安全加固
+3. 文档完善
+4. 部署和上线

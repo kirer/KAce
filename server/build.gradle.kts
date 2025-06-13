@@ -1,23 +1,29 @@
 plugins {
-    alias(libs.plugins.kotlinJvm)
-    alias(libs.plugins.ktor)
-    application
+    kotlin("jvm") version "1.9.0" apply false
+    kotlin("plugin.serialization") version "1.9.0" apply false
+    id("io.ktor.plugin") version "2.3.0" apply false
 }
 
-group = "com.github.kirer.kace"
-version = "1.0.0"
-application {
-    mainClass.set("com.github.kirer.kace.ApplicationKt")
+allprojects {
+    group = "com.kace"
+    version = "0.1.0"
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+    apply(plugin = "org.jetbrains.kotlin.jvm")
     
-    val isDevelopment: Boolean = project.ext.has("development")
-    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
-}
-
-dependencies {
-    implementation(projects.shared)
-    implementation(libs.logback)
-    implementation(libs.ktor.serverCore)
-    implementation(libs.ktor.serverNetty)
-    testImplementation(libs.ktor.serverTestHost)
-    testImplementation(libs.kotlin.testJunit)
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        kotlinOptions {
+            jvmTarget = "17"
+            freeCompilerArgs = listOf("-Xjsr305=strict")
+        }
+    }
+    
+    tasks.withType<Test> {
+        useJUnitPlatform()
+    }
 }
