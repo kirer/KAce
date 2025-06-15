@@ -1,0 +1,6 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+Before executing any task, carefully review README.md, server/README.md, server/CODE_STRUCTURE.md, and kace-todo-list.md, and continuously maintain and enhance kace-todo-list.md as development progresses.

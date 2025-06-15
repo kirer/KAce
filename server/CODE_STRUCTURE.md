@@ -13,15 +13,15 @@ server/
 ├── docker/                      # Docker相关配置
 │   ├── docker-compose.yml       # 开发环境Docker Compose配置
 │   └── Dockerfile               # 生产环境Dockerfile
-├── gateway/                     # API网关服务
-├── auth-service/                # 认证服务
-├── user-service/                # 用户管理服务
-├── content-service/             # 内容服务
-├── media-service/               # 媒体服务
-├── analytics-service/           # 分析服务
-├── notification-service/        # 通知服务
-├── common/                      # 共享代码库
-└── plugins/                     # 内容插件
+├── service-gateway/             # API网关服务
+├── service-auth/                # 认证服务
+├── service-user/                # 用户管理服务
+├── service-content/             # 内容服务
+├── service-media/               # 媒体服务
+├── service-analytics/           # 分析服务
+├── service-notification/        # 通知服务
+├── service-common/              # 共享代码库
+└── service-plugin/              # 内容插件
 ```
 
 ## 2. 共享代码库结构
@@ -29,7 +29,7 @@ server/
 共享代码库包含所有微服务共用的代码，避免代码重复。
 
 ```
-common/
+service-common/
 ├── build.gradle.kts
 ├── src/
 │   └── main/
@@ -65,7 +65,7 @@ common/
 每个微服务遵循相似的结构，以下以内容服务为例：
 
 ```
-content-service/
+service-content/
 ├── build.gradle.kts                               # 构建脚本
 ├── src/
 │   ├── main/
@@ -129,7 +129,7 @@ content-service/
 API网关作为系统入口点，具有特殊的结构：
 
 ```
-gateway/
+service-gateway/
 ├── build.gradle.kts
 ├── src/
 │   ├── main/
@@ -162,7 +162,7 @@ gateway/
 认证服务负责用户认证和授权：
 
 ```
-auth-service/
+service-auth/
 ├── build.gradle.kts
 ├── src/
 │   ├── main/
@@ -200,12 +200,12 @@ auth-service/
 └── docker/
 ```
 
-## 6. 用户管理服务结构
+## 6. 用户服务结构
 
-用户管理服务负责用户、角色和权限管理：
+用户服务负责用户管理：
 
 ```
-user-service/
+service-user/
 ├── build.gradle.kts
 ├── src/
 │   ├── main/
@@ -216,9 +216,6 @@ user-service/
 │   │   │               ├── UserServiceApplication.kt     # 应用入口
 │   │   │               ├── api/                          # API层
 │   │   │               │   ├── controller/               # 控制器
-│   │   │               │   │   ├── UserController.kt
-│   │   │               │   │   ├── RoleController.kt
-│   │   │               │   │   └── OrganizationController.kt
 │   │   │               │   ├── request/                  # 请求对象
 │   │   │               │   └── response/                 # 响应对象
 │   │   │               ├── domain/                       # 领域层
@@ -226,17 +223,42 @@ user-service/
 │   │   │               │   ├── repository/               # 仓库接口
 │   │   │               │   └── service/                  # 领域服务
 │   │   │               └── infrastructure/               # 基础设施层
+│   │   │                   ├── config/                   # 配置
+│   │   │                   ├── persistence/              # 持久化
+│   │   │                   └── messaging/                # 消息传递
 │   │   └── resources/
 │   └── test/
 └── docker/
 ```
 
-## 7. 媒体服务结构
+## 7. 内容服务结构
+
+内容服务负责内容管理：
+
+```
+service-content/
+├── build.gradle.kts
+├── src/
+│   ├── main/
+│   │   ├── kotlin/
+│   │   │   └── com/
+│   │   │       └── kace/
+│   │   │           └── content/
+│   │   │               ├── ContentServiceApplication.kt  # 应用入口
+│   │   │               ├── api/                          # API层
+│   │   │               ├── domain/                       # 领域层
+│   │   │               └── infrastructure/               # 基础设施层
+│   │   └── resources/
+│   └── test/
+└── docker/
+```
+
+## 8. 媒体服务结构
 
 媒体服务负责媒体文件管理：
 
 ```
-media-service/
+service-media/
 ├── build.gradle.kts
 ├── src/
 │   ├── main/
@@ -248,21 +270,17 @@ media-service/
 │   │   │               ├── api/                          # API层
 │   │   │               ├── domain/                       # 领域层
 │   │   │               └── infrastructure/               # 基础设施层
-│   │   │                   ├── storage/                  # 存储实现
-│   │   │                   │   ├── minio/                # MinIO集成
-│   │   │                   │   └── local/                # 本地存储
-│   │   │                   └── image/                    # 图像处理
 │   │   └── resources/
 │   └── test/
 └── docker/
 ```
 
-## 8. 分析服务结构
+## 9. 分析服务结构
 
-分析服务负责数据收集和分析：
+分析服务负责数据分析：
 
 ```
-analytics-service/
+service-analytics/
 ├── build.gradle.kts
 ├── src/
 │   ├── main/
@@ -271,23 +289,20 @@ analytics-service/
 │   │   │       └── kace/
 │   │   │           └── analytics/
 │   │   │               ├── AnalyticsServiceApplication.kt # 应用入口
-│   │   │               ├── api/                           # API层
-│   │   │               ├── domain/                        # 领域层
-│   │   │               └── infrastructure/                # 基础设施层
-│   │   │                   ├── collector/                 # 数据收集
-│   │   │                   ├── processor/                 # 数据处理
-│   │   │                   └── reporter/                  # 报表生成
+│   │   │               ├── api/                          # API层
+│   │   │               ├── domain/                       # 领域层
+│   │   │               └── infrastructure/               # 基础设施层
 │   │   └── resources/
 │   └── test/
 └── docker/
 ```
 
-## 9. 通知服务结构
+## 10. 通知服务结构
 
-通知服务负责消息和通知发送：
+通知服务负责消息通知：
 
 ```
-notification-service/
+service-notification/
 ├── build.gradle.kts
 ├── src/
 │   ├── main/
@@ -296,26 +311,21 @@ notification-service/
 │   │   │       └── kace/
 │   │   │           └── notification/
 │   │   │               ├── NotificationServiceApplication.kt # 应用入口
-│   │   │               ├── api/                              # API层
-│   │   │               ├── domain/                           # 领域层
-│   │   │               └── infrastructure/                   # 基础设施层
-│   │   │                   ├── email/                        # 邮件发送
-│   │   │                   ├── push/                         # 推送通知
-│   │   │                   ├── sms/                          # 短信发送
-│   │   │                   └── template/                     # 模板引擎
+│   │   │               ├── api/                          # API层
+│   │   │               ├── domain/                       # 领域层
+│   │   │               └── infrastructure/               # 基础设施层
 │   │   └── resources/
 │   └── test/
 └── docker/
 ```
 
-## 10. 插件系统结构
+## 11. 插件服务结构
 
-插件系统包含插件API和具体插件实现：
+插件服务提供内容插件支持：
 
 ```
-plugins/
-├── build.gradle.kts                               # 插件公共构建脚本
-├── plugin-api/                                    # 插件API定义
+service-plugin/
+├── plugin-api/                                     # 插件API
 │   ├── build.gradle.kts
 │   └── src/
 │       └── main/
@@ -323,31 +333,21 @@ plugins/
 │               └── com/
 │                   └── kace/
 │                       └── plugin/
-│                           ├── api/               # 插件接口
-│                           ├── model/             # 插件模型
-│                           └── util/              # 插件工具
-├── article-plugin/                                # 文章插件
+│                           └── api/
+├── plugin-article/                                 # 文章插件
 │   ├── build.gradle.kts
 │   └── src/
-│       └── main/
-│           ├── kotlin/
-│           │   └── com/
-│           │       └── kace/
-│           │           └── plugin/
-│           │               └── article/
-│           │                   ├── ArticlePlugin.kt  # 插件实现
-│           │                   ├── api/              # API实现
-│           │                   ├── domain/           # 领域逻辑
-│           │                   └── infrastructure/   # 基础设施
-│           └── resources/
-│               └── plugin.properties                 # 插件元数据
-├── product-plugin/                                # 产品插件
-└── event-plugin/                                  # 活动插件
+├── plugin-product/                                 # 产品插件
+│   ├── build.gradle.kts
+│   └── src/
+└── plugin-event/                                   # 事件插件
+    ├── build.gradle.kts
+    └── src/
 ```
 
-## 11. 构建系统
+## 12. 构建系统
 
-### 11.1 根构建文件
+### 12.1 根构建文件
 
 ```kotlin
 // build.gradle.kts
@@ -375,7 +375,7 @@ subprojects {
 }
 ```
 
-### 11.2 依赖管理
+### 12.2 依赖管理
 
 使用buildSrc目录集中管理依赖版本：
 
@@ -417,9 +417,9 @@ object Deps {
 }
 ```
 
-## 12. Docker配置
+## 13. Docker配置
 
-### 12.1 开发环境Docker Compose
+### 13.1 开发环境Docker Compose
 
 ```yaml
 # docker/docker-compose.yml
@@ -474,7 +474,7 @@ volumes:
   minio-data:
 ```
 
-### 12.2 服务Dockerfile
+### 13.2 服务Dockerfile
 
 ```dockerfile
 # docker/Dockerfile
@@ -490,9 +490,9 @@ EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
 ```
 
-## 13. 配置文件示例
+## 14. 配置文件示例
 
-### 13.1 应用配置
+### 14.1 应用配置
 
 ```hocon
 # application.conf
@@ -564,7 +564,7 @@ minio {
 }
 ```
 
-### 13.2 日志配置
+### 14.2 日志配置
 
 ```xml
 <!-- logback.xml -->
@@ -597,7 +597,7 @@ minio {
 </configuration>
 ```
 
-## 14. 应用入口示例
+## 15. 应用入口示例
 
 ```kotlin
 // ContentServiceApplication.kt
@@ -628,7 +628,7 @@ fun Application.module() {
 }
 ```
 
-## 15. 总结
+## 16. 总结
 
 本文档详细描述了KAce服务端的代码结构设计，采用了领域驱动设计和微服务架构的最佳实践。每个微服务都遵循相似的结构，但根据其特定功能进行了定制。共享代码库确保了代码复用，而插件系统提供了扩展性。
 

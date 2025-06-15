@@ -1,0 +1,299 @@
+version: '3.8'
+
+services:
+  # 数据库
+  postgres:
+    image: postgres:14
+    container_name: kace-postgres
+    environment:
+      POSTGRES_USER: kace
+      POSTGRES_PASSWORD: kace123
+      POSTGRES_DB: kace
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kace"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis
+  redis:
+    image: redis:7
+    container_name: kace-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Elasticsearch
+  elasticsearch:
+    image: elasticsearch:8.10.0
+    container_name: kace-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # MinIO (对象存储)
+  minio:
+    image: minio/minio
+    container_name: kace-minio
+    environment:
+      MINIO_ROOT_USER: kace
+      MINIO_ROOT_PASSWORD: kace123
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  # RabbitMQ (消息队列)
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: kace-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: kace
+      RABBITMQ_DEFAULT_PASS: kace123
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # 网关服务
+  gateway:
+    build:
+      context: .
+      dockerfile: service-gateway/Dockerfile
+    container_name: kace-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - KACE_ENV=dev
+      - KACE_DB_URL=jdbc:postgresql://postgres:5432/kace
+      - KACE_DB_USER=kace
+      - KACE_DB_PASSWORD=kace123
+      - KACE_REDIS_HOST=redis
+      - KACE_REDIS_PORT=6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # 认证服务
+  auth:
+    build:
+      context: .
+      dockerfile: service-auth/Dockerfile
+    container_name: kace-auth
+    ports:
+      - "8081:8081"
+    environment:
+      - KACE_ENV=dev
+      - KACE_DB_URL=jdbc:postgresql://postgres:5432/kace
+      - KACE_DB_USER=kace
+      - KACE_DB_PASSWORD=kace123
+      - KACE_REDIS_HOST=redis
+      - KACE_REDIS_PORT=6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # 内容服务
+  content:
+    build:
+      context: .
+      dockerfile: service-content/Dockerfile
+    container_name: kace-content
+    ports:
+      - "8082:8082"
+    environment:
+      - KACE_ENV=dev
+      - KACE_DB_URL=jdbc:postgresql://postgres:5432/kace
+      - KACE_DB_USER=kace
+      - KACE_DB_PASSWORD=kace123
+      - KACE_ELASTICSEARCH_HOST=elasticsearch
+      - KACE_ELASTICSEARCH_PORT=9200
+    depends_on:
+      postgres:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8082/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # 用户服务
+  user:
+    build:
+      context: .
+      dockerfile: service-user/Dockerfile
+    container_name: kace-user
+    ports:
+      - "8083:8083"
+    environment:
+      - KACE_ENV=dev
+      - KACE_DB_URL=jdbc:postgresql://postgres:5432/kace
+      - KACE_DB_USER=kace
+      - KACE_DB_PASSWORD=kace123
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8083/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # 媒体服务
+  media:
+    build:
+      context: .
+      dockerfile: service-media/Dockerfile
+    container_name: kace-media
+    ports:
+      - "8084:8084"
+    environment:
+      - KACE_ENV=dev
+      - KACE_DB_URL=jdbc:postgresql://postgres:5432/kace
+      - KACE_DB_USER=kace
+      - KACE_DB_PASSWORD=kace123
+      - KACE_MINIO_ENDPOINT=http://minio:9000
+      - KACE_MINIO_ACCESS_KEY=kace
+      - KACE_MINIO_SECRET_KEY=kace123
+    depends_on:
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8084/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # 通知服务
+  notification:
+    build:
+      context: .
+      dockerfile: service-notification/Dockerfile
+    container_name: kace-notification
+    ports:
+      - "8085:8085"
+    environment:
+      - KACE_ENV=dev
+      - KACE_DB_URL=jdbc:postgresql://postgres:5432/kace
+      - KACE_DB_USER=kace
+      - KACE_DB_PASSWORD=kace123
+      - KACE_RABBITMQ_HOST=rabbitmq
+      - KACE_RABBITMQ_PORT=5672
+      - KACE_RABBITMQ_USER=kace
+      - KACE_RABBITMQ_PASSWORD=kace123
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8085/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # 分析服务
+  analytics:
+    build:
+      context: .
+      dockerfile: service-analytics/Dockerfile
+    container_name: kace-analytics
+    ports:
+      - "8086:8086"
+    environment:
+      - KACE_ENV=dev
+      - KACE_DB_URL=jdbc:postgresql://postgres:5432/kace
+      - KACE_DB_USER=kace
+      - KACE_DB_PASSWORD=kace123
+      - KACE_ELASTICSEARCH_HOST=elasticsearch
+      - KACE_ELASTICSEARCH_PORT=9200
+    depends_on:
+      postgres:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8086/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # 插件服务
+  plugin:
+    build:
+      context: .
+      dockerfile: service-plugin/Dockerfile
+    container_name: kace-plugin
+    ports:
+      - "8087:8087"
+    environment:
+      - KACE_ENV=dev
+      - KACE_DB_URL=jdbc:postgresql://postgres:5432/kace
+      - KACE_DB_USER=kace
+      - KACE_DB_PASSWORD=kace123
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8087/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres_data:
+  redis_data:
+  elasticsearch_data:
+  minio_data:
+  rabbitmq_data: 
