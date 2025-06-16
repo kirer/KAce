@@ -5,136 +5,113 @@ import com.kace.system.domain.model.SystemMetric
 import kotlinx.datetime.Instant
 
 /**
+ * 指标统计信息
+ *
+ * @property min 最小值
+ * @property max 最大值
+ * @property avg 平均值
+ * @property sum 总和
+ * @property count 计数
+ */
+data class MetricStatistics(
+    val min: Double,
+    val max: Double,
+    val avg: Double,
+    val sum: Double,
+    val count: Long
+)
+
+/**
  * 系统指标仓库接口
  */
 interface SystemMetricRepository {
     /**
-     * 保存一条指标记录
+     * 保存系统指标
      *
-     * @param metric 指标记录
-     * @return 保存后的指标记录
+     * @param metric 系统指标
+     * @return 保存的指标
      */
-    suspend fun saveMetric(metric: SystemMetric): SystemMetric
+    suspend fun save(metric: SystemMetric): SystemMetric
     
     /**
-     * 批量保存指标记录
+     * 批量保存系统指标
      *
-     * @param metrics 指标记录列表
-     * @return 保存后的指标记录列表
+     * @param metrics 系统指标列表
+     * @return 保存的指标列表
      */
-    suspend fun saveMetrics(metrics: List<SystemMetric>): List<SystemMetric>
+    suspend fun saveAll(metrics: List<SystemMetric>): List<SystemMetric>
     
     /**
-     * 根据ID获取指标记录
+     * 根据ID查找系统指标
      *
      * @param id 指标ID
-     * @return 指标记录，如果不存在则返回null
+     * @return 系统指标，如果不存在则返回null
      */
     suspend fun findById(id: Long): SystemMetric?
     
     /**
-     * 根据指标名称和时间范围查询
+     * 根据指标名称和服务ID查找最新指标
      *
      * @param name 指标名称
-     * @param startTime 开始时间
-     * @param endTime 结束时间
-     * @param limit 限制数量，默认为100
-     * @return 指标记录列表
+     * @param serviceId 服务ID
+     * @return 最新指标，如果不存在则返回null
      */
-    suspend fun findByNameAndTimeRange(
-        name: String, 
-        startTime: Instant, 
-        endTime: Instant,
-        limit: Int = 100
-    ): List<SystemMetric>
+    suspend fun findLatestByNameAndServiceId(name: String, serviceId: String): SystemMetric?
     
     /**
-     * 根据服务ID和时间范围查询
+     * 根据服务ID查找所有最新指标
      *
      * @param serviceId 服务ID
-     * @param startTime 开始时间
-     * @param endTime 结束时间
-     * @param limit 限制数量，默认为100
-     * @return 指标记录列表
-     */
-    suspend fun findByServiceIdAndTimeRange(
-        serviceId: String, 
-        startTime: Instant, 
-        endTime: Instant,
-        limit: Int = 100
-    ): List<SystemMetric>
-    
-    /**
-     * 根据指标类型和时间范围查询
-     *
-     * @param type 指标类型
-     * @param startTime 开始时间
-     * @param endTime 结束时间
-     * @param limit 限制数量，默认为100
-     * @return 指标记录列表
-     */
-    suspend fun findByTypeAndTimeRange(
-        type: MetricType, 
-        startTime: Instant, 
-        endTime: Instant,
-        limit: Int = 100
-    ): List<SystemMetric>
-    
-    /**
-     * 获取指标最新值
-     *
-     * @param name 指标名称
-     * @param serviceId 服务ID，默认为"system"
-     * @return 最新的指标记录，如果不存在则返回null
-     */
-    suspend fun findLatestByName(name: String, serviceId: String = "system"): SystemMetric?
-    
-    /**
-     * 获取某个服务的所有最新指标
-     *
-     * @param serviceId 服务ID
-     * @return 最新的指标记录列表
+     * @return 最新指标列表
      */
     suspend fun findLatestByServiceId(serviceId: String): List<SystemMetric>
     
     /**
-     * 删除过期数据
+     * 查找所有服务的最新指标，并按服务ID分组
      *
-     * @param before 截止时间，删除该时间之前的数据
-     * @return 删除的记录数
+     * @return 按服务ID分组的最新指标
      */
-    suspend fun deleteExpiredMetrics(before: Instant): Int
+    suspend fun findAllLatestGroupByServiceId(): Map<String, List<SystemMetric>>
     
     /**
-     * 获取指标的聚合统计（如平均值、最大值、最小值）
+     * 根据指标名称、服务ID和时间范围查询指标历史数据
      *
      * @param name 指标名称
      * @param serviceId 服务ID
      * @param startTime 开始时间
      * @param endTime 结束时间
-     * @return 聚合统计结果，包括平均值、最大值、最小值
+     * @param limit 限制数量
+     * @return 指标历史数据
      */
-    suspend fun getMetricStatistics(
+    suspend fun findByNameAndServiceIdAndTimeRange(
+        name: String,
+        serviceId: String,
+        startTime: Instant,
+        endTime: Instant,
+        limit: Int = 100
+    ): List<SystemMetric>
+    
+    /**
+     * 获取指标统计信息
+     *
+     * @param name 指标名称
+     * @param serviceId 服务ID
+     * @param startTime 开始时间
+     * @param endTime 结束时间
+     * @return 指标统计信息
+     */
+    suspend fun getStatistics(
         name: String,
         serviceId: String,
         startTime: Instant,
         endTime: Instant
     ): MetricStatistics
+    
+    /**
+     * 删除指定时间之前的指标数据
+     *
+     * @param timestamp 时间戳
+     * @return 删除的记录数
+     */
+    suspend fun deleteByTimestampBefore(timestamp: Instant): Int
 }
-
-/**
- * 指标统计数据
- *
- * @property count 数据点数量
- * @property avg 平均值
- * @property max 最大值
- * @property min 最小值
- * @property sum 总和
- */
-data class MetricStatistics(
-    val count: Long = 0,
-    val avg: Double = 0.0,
-    val max: Double = Double.MIN_VALUE,
-    val min: Double = Double.MAX_VALUE,
-    val sum: Double = 0.0
-)

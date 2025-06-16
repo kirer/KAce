@@ -9,54 +9,54 @@ import kotlinx.datetime.Instant
  */
 interface SystemHealthRepository {
     /**
-     * 保存健康信息记录
+     * 保存系统健康信息
      *
-     * @param health 健康信息记录
-     * @return 保存后的健康信息记录
+     * @param health 系统健康信息
+     * @return 保存的健康信息
      */
-    suspend fun saveHealth(health: SystemHealth): SystemHealth
+    suspend fun save(health: SystemHealth): SystemHealth
     
     /**
-     * 根据ID获取健康信息记录
+     * 批量保存系统健康信息
+     *
+     * @param healthRecords 系统健康信息列表
+     * @return 保存的健康信息列表
+     */
+    suspend fun saveAll(healthRecords: List<SystemHealth>): List<SystemHealth>
+    
+    /**
+     * 根据ID查找系统健康信息
      *
      * @param id 健康信息ID
-     * @return 健康信息记录，如果不存在则返回null
+     * @return 系统健康信息，如果不存在则返回null
      */
     suspend fun findById(id: Long): SystemHealth?
     
     /**
-     * 获取指定服务的最新健康信息
+     * 根据服务ID查找最新健康信息
      *
      * @param serviceId 服务ID
-     * @return 最新的健康信息记录，如果不存在则返回null
+     * @return 最新健康信息，如果不存在则返回null
      */
     suspend fun findLatestByServiceId(serviceId: String): SystemHealth?
     
     /**
-     * 获取所有服务的最新健康信息
+     * 查找所有服务的最新健康信息
      *
-     * @return 所有服务的最新健康信息记录列表
+     * @return 所有服务的最新健康信息
      */
     suspend fun findAllLatest(): List<SystemHealth>
     
     /**
-     * 根据状态获取最新健康信息
-     *
-     * @param status 健康状态
-     * @return 指定状态的最新健康信息记录列表
-     */
-    suspend fun findLatestByStatus(status: HealthStatus): List<SystemHealth>
-    
-    /**
-     * 获取指定服务的健康历史记录
+     * 根据服务ID和时间范围查询健康信息历史记录
      *
      * @param serviceId 服务ID
      * @param startTime 开始时间
      * @param endTime 结束时间
-     * @param limit 限制数量，默认为100
-     * @return 健康信息记录列表
+     * @param limit 限制数量
+     * @return 健康信息历史记录
      */
-    suspend fun findHistoryByServiceId(
+    suspend fun findByServiceIdAndTimeRange(
         serviceId: String,
         startTime: Instant,
         endTime: Instant,
@@ -64,10 +64,10 @@ interface SystemHealthRepository {
     ): List<SystemHealth>
     
     /**
-     * 删除历史健康信息记录
+     * 删除指定时间之前的健康信息数据
      *
-     * @param before 截止时间，删除该时间之前的数据
+     * @param timestamp 时间戳
      * @return 删除的记录数
      */
-    suspend fun deleteExpiredHealth(before: Instant): Int
+    suspend fun deleteByTimestampBefore(timestamp: Instant): Int
 }
