@@ -38,3 +38,11 @@ include(":app-web")
 include(":app-ios")
 include(":server")
 include(":shared")
+
+// Server子模块
+include(":server:core")
+include(":server:api")
+include(":server:plugin")
+include(":server:security")
+include(":server:data")
+include(":server:common")

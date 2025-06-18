@@ -1,0 +1,26 @@
+2025-06-18 17:43:56.720 [main] INFO  [Koin] - Started 1 definitions in 1.1678 ms
+2025-06-18 17:43:57.045 [main] INFO  io.ktor.server.Application - Autoreload is disabled because the development mode is off.
+2025-06-18 17:43:57.197 [main] INFO  c.g.kirer.kace.plugin.PluginManager - 初始化插件管理器
+2025-06-18 17:43:57.198 [main] INFO  io.ktor.server.Application - Application started in 0.418 seconds.
+2025-06-18 17:43:57.443 [DefaultDispatcher-worker-2] INFO  io.ktor.server.Application - Responding at http://127.0.0.1:8080
+2025-06-18 17:44:28.438 [main] INFO  [Koin] - Started 1 definitions in 0.7093 ms
+2025-06-18 17:44:28.802 [main] INFO  io.ktor.server.Application - Autoreload is disabled because the development mode is off.
+2025-06-18 17:44:28.943 [main] INFO  c.g.kirer.kace.plugin.PluginManager - 初始化插件管理器
+2025-06-18 17:44:28.945 [main] INFO  io.ktor.server.Application - Application started in 0.433 seconds.
+2025-06-18 17:44:29.260 [DefaultDispatcher-worker-1] INFO  io.ktor.server.Application - Responding at http://127.0.0.1:8080
+2025-06-18 17:52:05.670 [main] WARN  c.github.kirer.kace.config.AppConfig - 配置加密未启用，敏感信息将以明文存储
+2025-06-18 17:52:05.703 [main] WARN  c.g.kirer.kace.config.ConfigWatcher - 配置文件不存在，无法监听: application.conf
+2025-06-18 17:52:05.717 [main] INFO  c.g.kirer.kace.config.ConfigWatcher - 配置文件监听器已启动
+2025-06-18 17:52:05.776 [main] INFO  [Koin] - Started 1 definitions in 0.5634 ms
+2025-06-18 17:52:06.011 [main] INFO  io.ktor.server.Application - Autoreload is disabled because the development mode is off.
+2025-06-18 17:52:06.106 [main] INFO  c.g.kirer.kace.plugin.PluginManager - 初始化插件管理器
+2025-06-18 17:52:06.107 [main] INFO  io.ktor.server.Application - Application started in 0.299 seconds.
+2025-06-18 17:52:06.282 [DefaultDispatcher-worker-3] INFO  io.ktor.server.Application - Responding at http://127.0.0.1:8080
+2025-06-18 18:09:21.214 [main] WARN  c.github.kirer.kace.config.AppConfig - 配置加密未启用，敏感信息将以明文存储
+2025-06-18 18:09:21.272 [main] WARN  c.g.kirer.kace.config.ConfigWatcher - 配置文件不存在，无法监听: application.conf
+2025-06-18 18:09:21.285 [main] INFO  c.g.kirer.kace.config.ConfigWatcher - 配置文件监听器已启动
+2025-06-18 18:09:21.368 [main] INFO  [Koin] - Started 1 definitions in 0.6661 ms
+2025-06-18 18:09:21.691 [main] INFO  io.ktor.server.Application - Autoreload is disabled because the development mode is off.
+2025-06-18 18:09:21.810 [main] INFO  c.g.kirer.kace.plugin.PluginManager - 初始化插件管理器
+2025-06-18 18:09:21.811 [main] INFO  io.ktor.server.Application - Application started in 0.398 seconds.
+2025-06-18 18:09:22.053 [DefaultDispatcher-worker-3] INFO  io.ktor.server.Application - Responding at http://127.0.0.1:8080
