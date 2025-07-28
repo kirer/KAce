@@ -100,7 +100,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.github.kirer.kace.shared"
+    namespace = "com.github.kirer.boss.shared"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

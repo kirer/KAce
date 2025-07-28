@@ -1,5 +1,5 @@
 subprojects {
-    group = "com.kace"
+    group = "com.github.kirer.boss"
     version = "0.1.0"
 
     repositories {
@@ -8,10 +8,7 @@ subprojects {
     
     plugins.withType<org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper> {
         tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-            kotlinOptions {
-                jvmTarget = "17"
-                freeCompilerArgs = listOf("-Xjsr305=strict")
-            }
+
         }
     }
     

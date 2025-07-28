@@ -17,11 +17,11 @@ kotlin {
 }
 
 android {
-    namespace = "com.github.kirer.kace"
+    namespace = "com.github.kirer.boss"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.github.kirer.kace"
+        applicationId = "com.github.kirer.boss"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1

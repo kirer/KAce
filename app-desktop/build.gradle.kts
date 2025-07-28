@@ -19,11 +19,11 @@ kotlin {
 
 compose.desktop {
     application {
-        mainClass = "com.github.kirer.kace.MainKt"
+        mainClass = "com.github.kirer.boss.MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "com.github.kirer.kace"
+            packageName = "com.github.kirer.boss"
             packageVersion = "1.0.0"
         }
     }
